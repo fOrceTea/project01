@@ -14,14 +14,14 @@ if ($conn->connect_error) {
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $mbID = $_POST["mbID"];
+    $mstndnMbFID = $_POST["stndnMbFID"];
     $projektID = $_POST["projektID"];
     $datum = $_POST["datum"];
     $start = $_POST["start"];
     $end = $_POST["end"];
 
     // Insert data into database
-    $sql = "INSERT INTO tblStunden (stndnMbFID, stndnProjektFID, datum, start, end) VALUES ('$mbID', '$projektID', '$datum', '$start', '$end')";
+    $sql = "INSERT INTO tblStunden (stndnMbFID, stndnProjektFID, datum, start, end) VALUES ('$stndnMbFID', '$projektID', '$datum', '$start', '$end')";
 
     if ($conn->query($sql) === TRUE) {
         echo "Stunden erfolgreich aufgezeichnet.";
@@ -44,16 +44,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <div class="container">
-        <header>
-            <h1>Stunden und Kunden</h1>
-        </header>
-
+    <div class="container">       
         <main>
             <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
             <div class="form-group">
                     <label for="start">Mitarbeiter ID:</label>
-                    <input type="time" class="form-control" id="mbID" name="mbID">
+                    <input type="time" class="form-control" id="stndnMbFID" name="stndnMbFID">
                 </div>
                 <div class="form-group">
                     <label for="projektID">Projekt ID:</label>
