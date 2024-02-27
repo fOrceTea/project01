@@ -16,6 +16,10 @@ CREATE TABLE tblKunden (
     kndOrt VARCHAR(255) NOT NULL
 );
 
+
+
+
+
 CREATE TABLE tblProjekte (
     projektID INT auto_increment primary key,
     projektKndFID INT,
