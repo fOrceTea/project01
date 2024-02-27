@@ -106,8 +106,18 @@ session_start();
                 </div>
             </div>
 
-            <hr>
-            <div class="card-deck">
+            <table class="table">
+                <thead>                
+                    <tr>
+                        <th>Mitarbeiter:</th>
+                        <th>Kunde:</th>
+                        <th>Projekt:</th>
+                        <th>Start:</th>
+                        <th>Ende:</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
                 <?php
 
                 $sql = "SELECT * FROM tblMitarbeiter, tblKunden, tblProjekte, tblStunden 
@@ -121,23 +131,17 @@ session_start();
 
                     while ($row = $result->fetch_assoc()) {
                         ?>
-                        <div class="filterDiv kdnIDNrProjectNr<?= $row['kdnID']; ?><?= $row['projektID']; ?>">
-                            <div class="card text-white"
-                                style="width: 20rem; margin: 16px; background-color: rgb(125,125,125)">
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        Mitarbeiter: <?= $row['mbName']; ?> <br>
-                                        Kunde: <?= $row['kndName']; ?> <br>
-                                        Projekt: <?= $row['projektName']; ?> <br>
-                                        Start: <?= $row['stndnStart']; ?> <br>
-                                        Ende: <?= $row['stndnEnd']; ?> <br>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+                         
+                        <tr class="filterDiv kdnIDNrProjectNr<?= $row['kdnID']; ?><?= $row['projektID']; ?>">
+                            <td><?= $row['mbName']; ?></td>
+                            <td><?= $row['kndName']; ?></td>
+                            <td><?= $row['projektName']; ?></td>
+                            <td><?= $row['stndnStart']; ?></td>
+                            <td><?= $row['stndnEnd']; ?></td>
+                        </tr>
                         <?php
                     }
-                    echo "</div>";
+                    echo "</tbody>";
 
                 } else {
                     echo "Keine Datensätze gefunden";
@@ -145,7 +149,7 @@ session_start();
 
                 $conn->close();
                 ?>
-            </div>
+            </table>
 
             <!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_filter_elements -->
 
