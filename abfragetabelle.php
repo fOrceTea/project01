@@ -79,7 +79,7 @@ session_start();
                             alle</button>
 
                         <?php
-                        $sql = "SELECT * FROM tblKunden;";
+                        $sql = "SELECT * FROM tblStunden;";
 
                         $result = $conn->query($sql);
 
@@ -88,8 +88,8 @@ session_start();
                             while ($row = $result->fetch_assoc()) {
                                 ?>
 
-                                <button class="btn dropdown-item" onclick="filterSelection('kndNrID<?= $row['kndID']; ?>')">
-                                    <?= $row['kndName']; ?>
+                                <button class="btn dropdown-item" onclick="filterSelection('stndnIdNr<?= $row['stndnID']; ?>')">
+                                    <?= $row['stndnMbFID']; ?>
                                 </button>
 
                                 <?php
@@ -107,30 +107,27 @@ session_start();
             <div class="card-deck">
                 <?php
 
-                $sql = "SELECT * FROM tblStunden, tblTaetigkeit, tblKunden 
-                        WHERE tblStunden.stndnTaetigkeitFID = tblTaetigkeit.ttkID 
-                        AND tblStunden.stndnKndFID = tblKunden.kndID";
+                $sql = "SELECT * FROM tblMitarbeiter, tblKunden, tblProjekte 
+                        WHERE tblProjekte.projektKndFID = tblKunden.kdnID 
+                        AND tblStunden.stndnMbFID = tblMitarbeiter.mbID
+                        AND tblStunden.stndnProjektFID = tblProjekte.projektID";
+                        
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
 
                     while ($row = $result->fetch_assoc()) {
                         ?>
-                        <div class="filterDiv kndNrID<?= $row['kndID']; ?>">
+                        <div class="filterDiv stndnIdNr<?= $row['stndnID']; ?>">
                             <div class="card text-white"
-                                style="width: 20rem; margin: 16px; background-color: <?= $row['kndFarbe']; ?>">
+                                style="width: 20rem; margin: 16px; background-color: rgb(125,125,125)">
                                 <div class="card-body">
                                     <p class="card-text">
-                                        <?= $row['ttkName']; ?> <br>
-                                        <br>
-                                        Start:
-                                        <?= $row['stndnStart']; ?> <br>
-                                        <br>
-                                        Ende:
-                                        <?= $row['stndnEnde']; ?> <br>
-                                        <br>
-                                        Kategorie:
-                                        <?= $row['kndName']; ?> <br>
+                                        Mitarbeiter: <?= $row['mbName']; ?> <br>
+                                        Kunde: <?= $row['kndName']; ?> <br>
+                                        Projekt: <?= $row['projektName']; ?> <br>
+                                        Start: <?= $row['stndnStart']; ?> <br>
+                                        Ende: <?= $row['stndnEnde']; ?> <br>
                                     </p>
                                 </div>
                             </div>
