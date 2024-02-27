@@ -1,24 +1,20 @@
 <?php
-// Initialize the session
 session_start();
 
-// Database configuration
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "dbArbeitszeitaufzeichnung";
+$dbname = "dbUnternehmen";
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $mbID = $_SESSION["id"]; // Assuming you have stored member ID in session after login
+    $mbID = $_POST["mbID"];
     $projektID = $_POST["projektID"];
     $datum = $_POST["datum"];
     $start = $_POST["start"];
@@ -55,6 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <main>
             <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
+            <div class="form-group">
+                    <label for="start">Mitarbeiter ID:</label>
+                    <input type="time" class="form-control" id="mbID" name="mbID">
+                </div>
                 <div class="form-group">
                     <label for="projektID">Projekt ID:</label>
                     <input type="text" class="form-control" id="projektID" name="projektID">
