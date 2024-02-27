@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stundenverwaltung</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet" />
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="#stunden_erfassen">Stunden erfassen</a>
+        <a class="navbar-brand" href="#stunden_abrufen">Stunden abrufen</a>
+      </div>
+    </nav>
+
+    <div class="container mt-5" id="stunden_erfassen">
+      <h2>Stunden erfassen</h2>
+      <form method="POST" action="insert_stunden.php">
+        <div class="form-group">
+          <label for="stndnMbFID">Mitarbeiter ID:</label>
+          <input type="text" class="form-control" id="stndnMbFID" name="stndnMbFID" />
+        </div>
+        <div class="form-group">
+          <label for="stndnProjektFID">Projekt ID:</label>
+          <input type="text" class="form-control" id="stndnProjektFID" name="stndnProjektFID" />
+        </div>
+        <div class="form-group">
+          <label for="datum">Datum:</label>
+          <input type="date" class="form-control" id="datum" name="datum" />
+        </div>
+        <div class="form-group">
+          <label for="start">Startzeit:</label>
+          <input type="time" class="form-control" id="start" name="start" />
+        </div>
+        <div class="form-group">
+          <label for="end">Endzeit:</label>
+          <input type="time" class="form-control" id="end" name="end" />
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+
+    <div class="container mt-5" id="stunden_abrufen">
+      <h2>Stunden abrufen</h2>
+      <form method="POST" action="stunden_abrufen.php">
+        <div class="form-group">
+          <label for="projektID">Projekt ID:</label>
+          <input type="text" class="form-control" id="projektID" name="projektID" />
+        </div>
+        <button type="submit" class="btn btn-primary">Stunden abrufen</button>
+      </form>
+    </div>
+  </body>
+</html>
