@@ -17,11 +17,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mstndnMbFID = $_POST["stndnMbFID"];
     $projektID = $_POST["projektID"];
     $datum = $_POST["datum"];
-    $start = $_POST["start"];
-    $end = $_POST["end"];
+    $start = $_POST["stndnStart"];
+    $end = $_POST["stndnEnd"];
 
     // Insert data into database
-    $sql = "INSERT INTO tblStunden (stndnMbFID, stndnProjektFID, datum, start, end) VALUES ('$stndnMbFID', '$projektID', '$datum', '$start', '$end')";
+    $sql = "INSERT INTO tblStunden (stndnMbFID, stndnProjektFID, stndnStart, stndnEnd) VALUES ('$stndnMbFID', '$projektID', '$datum', '$start', '$end')";
 
     if ($conn->query($sql) === TRUE) {
         echo "Stunden erfolgreich aufgezeichnet.";
@@ -49,23 +49,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form method="post" action="<?php echo $_SERVER["PHP_SELF"]; ?>">
             <div class="form-group">
                     <label for="start">Mitarbeiter ID:</label>
-                    <input type="time" class="form-control" id="stndnMbFID" name="stndnMbFID">
+                    <input type="text" class="form-control" id="stndnMbFID" name="stndnMbFID">
                 </div>
                 <div class="form-group">
                     <label for="projektID">Projekt ID:</label>
                     <input type="text" class="form-control" id="projektID" name="projektID">
                 </div>
                 <div class="form-group">
-                    <label for="datum">Datum:</label>
-                    <input type="date" class="form-control" id="datum" name="datum">
-                </div>
-                <div class="form-group">
                     <label for="start">Startzeit:</label>
-                    <input type="time" class="form-control" id="start" name="start">
+                    <input type="datetime" class="form-control" id="start" name="start">
                 </div>
                 <div class="form-group">
                     <label for="end">Endzeit:</label>
-                    <input type="time" class="form-control" id="end" name="end">
+                    <input type="datetime" class="form-control" id="end" name="end">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
