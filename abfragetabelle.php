@@ -69,7 +69,7 @@ session_start();
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Filter
+                    Kunde Filter
                 </button>
                 <div id="myBtnContainer">
 
@@ -79,7 +79,10 @@ session_start();
                             alle</button>
 
                         <?php
-                        $sql = "SELECT * FROM tblStunden;";
+                        $sql = "SELECT * FROM tblProjekte, tblStunden, tblMitarbeiter, tblKunden
+                        WHERE tblStunden.stndnProjektFID = tblProjekte.projektID
+                        AND tblStunden.stndnMbFID = tblMitarbeiter.mbID
+                        AND tblKunden.kdnID = tblProjekte.projektKndFID";
 
                         $result = $conn->query($sql);
 
@@ -88,8 +91,8 @@ session_start();
                             while ($row = $result->fetch_assoc()) {
                                 ?>
 
-                                <button class="btn dropdown-item" onclick="filterSelection('stndnIdNr<?= $row['stndnID']; ?>')">
-                                    <?= $row['stndnMbFID']; ?>
+                                <button class="btn dropdown-item" onclick="filterSelection('kdnIDNrProjectNr<?= $row['kdnID']; ?><?= $row['projektID']; ?>')">
+                                <?= $row['kndName']; ?> - <?= $row['projektName']; ?>
                                 </button>
 
                                 <?php
@@ -107,10 +110,10 @@ session_start();
             <div class="card-deck">
                 <?php
 
-                $sql = "SELECT * FROM tblMitarbeiter, tblKunden, tblProjekte 
-                        WHERE tblProjekte.projektKndFID = tblKunden.kdnID 
+                $sql = "SELECT * FROM tblMitarbeiter, tblKunden, tblProjekte, tblStunden 
+                        WHERE tblStunden.stndnProjektFID = tblProjekte.projektID
                         AND tblStunden.stndnMbFID = tblMitarbeiter.mbID
-                        AND tblStunden.stndnProjektFID = tblProjekte.projektID";
+                        AND tblKunden.kdnID = tblProjekte.projektKndFID";
                         
                 $result = $conn->query($sql);
 
@@ -118,7 +121,7 @@ session_start();
 
                     while ($row = $result->fetch_assoc()) {
                         ?>
-                        <div class="filterDiv stndnIdNr<?= $row['stndnID']; ?>">
+                        <div class="filterDiv kdnIDNrProjectNr<?= $row['kdnID']; ?><?= $row['projektID']; ?>">
                             <div class="card text-white"
                                 style="width: 20rem; margin: 16px; background-color: rgb(125,125,125)">
                                 <div class="card-body">
@@ -127,7 +130,7 @@ session_start();
                                         Kunde: <?= $row['kndName']; ?> <br>
                                         Projekt: <?= $row['projektName']; ?> <br>
                                         Start: <?= $row['stndnStart']; ?> <br>
-                                        Ende: <?= $row['stndnEnde']; ?> <br>
+                                        Ende: <?= $row['stndnEnd']; ?> <br>
                                     </p>
                                 </div>
                             </div>
