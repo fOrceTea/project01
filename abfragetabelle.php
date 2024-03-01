@@ -66,82 +66,182 @@ session_start();
 
 
         <main>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Kunde Filter
-                </button>
-                <div id="myBtnContainer">
+            <div class="btn-group" role="group" aria-label="Basic example">
 
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <!-- Mitarbeiter -->
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Mitarbeiter
+                    </button>
+                    <div class="myBtnContainer">
 
-                        <button class="btn active dropdown-item" type="button" onclick="filterSelection('all')">Zeige
-                            alle</button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 
-                        <?php
-                        $sql = "SELECT * FROM tblProjekte, tblStunden, tblMitarbeiter, tblKunden
-                        WHERE tblStunden.stndnProjektFID = tblProjekte.projektID
-                        AND tblStunden.stndnMbFID = tblMitarbeiter.mbID
-                        AND tblKunden.kdnID = tblProjekte.projektKndFID";
+                            <button class="btn active dropdown-item" type="button"
+                                onclick="filterSelection('all')">Zeige
+                                alle</button>
 
-                        $result = $conn->query($sql);
+                            <?php
+                            $sql = "SELECT * FROM tblMitarbeiter";
 
-                        if ($result->num_rows > 0) {
+                            $result = $conn->query($sql);
 
-                            while ($row = $result->fetch_assoc()) {
-                                ?>
+                            if ($result->num_rows > 0) {
 
-                                <button class="btn dropdown-item" onclick="filterSelection('kdnIDNrProjectNr<?= $row['kdnID']; ?><?= $row['projektID']; ?>')">
-                                <?= $row['kndName']; ?> - <?= $row['projektName']; ?>
-                                </button>
+                                while ($row = $result->fetch_assoc()) {
+                                    ?>
 
-                                <?php
+                                    <button class="btn dropdown-item"
+                                        onclick="filterSelection('mitarbeiterNr<?= $row['mbID']; ?>')">
+                                        <?= $row['mbName']; ?>
+                                    </button>
+
+
+                                    <?php
+                                }
+                            } else {
+                                echo "Keine Datensätze gefunden";
                             }
-                        } else {
-                            echo "Keine Datensätze gefunden";
-                        }
 
-                        ?>
+                            ?>
+                        </div>
+
                     </div>
                 </div>
-            </div>
 
+
+                <!-- Kunde -->
+                <div class="dropdown">
+
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Kunde
+                    </button>
+
+                    <div class="myBtnContainer">
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+
+                            <button class="btn active dropdown-item" type="button"
+                                onclick="filterSelection('all')">Zeige
+                                alle</button>
+
+                            <?php
+                            $sql = "SELECT * FROM tblKunden";
+
+                            $result = $conn->query($sql);
+
+                            if ($result->num_rows > 0) {
+
+                                while ($row = $result->fetch_assoc()) {
+                                    ?>
+
+                                    <button class="btn dropdown-item" onclick="filterSelection('kdnIDNr<?= $row['kdnID']; ?>')">
+                                        <?= $row['kndName']; ?>
+                                    </button>
+
+                                    <?php
+                                }
+                            } else {
+                                echo "Keine Datensätze gefunden";
+                            }
+
+                            ?>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Projekt -->
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Projekt
+                    </button>
+                    <div class="myBtnContainer">
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+
+                            <button class="btn active dropdown-item" type="button"
+                                onclick="filterSelection('all')">Zeige
+                                alle</button>
+
+                            <?php
+                            $sql = "SELECT * FROM tblProjekte";
+
+                            $result = $conn->query($sql);
+
+                            if ($result->num_rows > 0) {
+
+                                while ($row = $result->fetch_assoc()) {
+                                    ?>
+
+                                    <button class="btn dropdown-item"
+                                        onclick="filterSelection('projektNr<?= $row['projektID']; ?>')">
+                                        <?= $row['projektName']; ?>
+                                    </button>
+
+
+                                    <?php
+                                }
+                            } else {
+                                echo "Keine Datensätze gefunden";
+                            }
+
+                            ?>
+                        </div>
+
+                    </div>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-secondary" onclick="calculateTotalHours()">Stunden
+                    berechnen: </button>
+                </div>
+                <div>
+                    <span id="hoursCalculateTxt" class="btn btn-secondary">--</span>
+                </div>
+
+
+            </div>
             <table class="table">
-                <thead>                
-                    <tr>
-                        <th>Mitarbeiter:</th>
-                        <th>Kunde:</th>
-                        <th>Projekt:</th>
-                        <th>Start:</th>
-                        <th>Ende:</th>
-                    </tr>
-                </thead>
-                
-                <tbody>
+
                 <?php
 
                 $sql = "SELECT * FROM tblMitarbeiter, tblKunden, tblProjekte, tblStunden 
                         WHERE tblStunden.stndnProjektFID = tblProjekte.projektID
                         AND tblStunden.stndnMbFID = tblMitarbeiter.mbID
-                        AND tblKunden.kdnID = tblProjekte.projektKndFID";
-                        
+                        AND tblProjekte.projektKndFID = tblKunden.kdnID";
+
                 $result = $conn->query($sql);
 
                 if ($result->num_rows > 0) {
 
                     while ($row = $result->fetch_assoc()) {
                         ?>
-                         
-                        <tr class="filterDiv kdnIDNrProjectNr<?= $row['kdnID']; ?><?= $row['projektID']; ?>">
-                            <td><?= $row['mbName']; ?></td>
-                            <td><?= $row['kndName']; ?></td>
-                            <td><?= $row['projektName']; ?></td>
-                            <td><?= $row['stndnStart']; ?></td>
-                            <td><?= $row['stndnEnd']; ?></td>
+
+                        <tr
+                            class="filterDiv kdnIDNr<?= $row['kdnID']; ?> projektNr<?= $row['projektID']; ?> mitarbeiterNr<?= $row['mbID']; ?>">
+                            <td>
+                                <?= $row['mbName']; ?>
+                            </td>
+                            <td>
+                                <?= $row['kndName']; ?>
+                            </td>
+                            <td>
+                                <?= $row['projektName']; ?>
+                            </td>
+                            <td>
+                                <?= $row['stndnStart']; ?>
+                            </td>
+                            <td>
+                                <?= $row['stndnEnd']; ?>
+                            </td>
                         </tr>
+
                         <?php
                     }
-                    echo "</tbody>";
+                    echo "";
 
                 } else {
                     echo "Keine Datensätze gefunden";
@@ -150,6 +250,8 @@ session_start();
                 $conn->close();
                 ?>
             </table>
+
+
 
             <!-- https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_filter_elements -->
 
@@ -164,6 +266,7 @@ session_start();
                         w3RemoveClass(x[i], "show");
                         if (x[i].className.indexOf(c) > -1) w3AddClass(x[i], "show");
                     }
+
                 }
 
                 function w3AddClass(element, name) {
@@ -188,7 +291,7 @@ session_start();
                 }
 
                 // Add active class to the current button (highlight it)
-                var btnContainer = document.getElementById("myBtnContainer");
+                var btnContainer = document.getElementsByClassName("myBtnContainer");
                 var btns = btnContainer.getElementsByClassName("btn");
                 for (var i = 0; i < btns.length; i++) {
                     btns[i].addEventListener("click", function () {
@@ -197,6 +300,27 @@ session_start();
                         this.className += " active";
                     });
                 }
+
+                function calculateTotalHours() {
+                    let table = document.querySelector("table");
+                    let rows = table.querySelectorAll(".filterDiv.show");
+                    let totalHours = 0;
+
+                    for (var i = 0; i < rows.length; i++) {
+                        let cells = rows[i].getElementsByTagName("td");
+                        let startTime = new Date(cells[3].textContent).getTime();
+                        let endTime = new Date(cells[4].textContent).getTime();
+                        let hoursDifference = (endTime - startTime) / (1000 * 60 * 60);
+                        totalHours += hoursDifference;
+                    }
+
+                    document.getElementById("hoursCalculateTxt").textContent = totalHours;
+                }
+
+                calculateTotalHours();
+
+                setInterval(calculateTotalHours, 500);
+
             </script>
 
         </main>
