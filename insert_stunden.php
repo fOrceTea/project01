@@ -1,27 +1,20 @@
 <?php
 session_start();
-
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "dbUnternehmen";
-
 $conn = new mysqli($servername, $username, $password, $dbname);
-
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $mstndnMbFID = $_POST["stndnMbFID"];
     $projektID = $_POST["projektID"];
     $datum = $_POST["datum"];
     $start = $_POST["stndnStart"];
     $end = $_POST["stndnEnd"];
-
     $sql = "INSERT INTO tblStunden (stndnMbFID, stndnProjektFID, stndnStart, stndnEnd) VALUES ('$stndnMbFID', '$projektID', '$datum', '$start', '$end')";
-
     if ($conn->query($sql) === TRUE) {
         echo "Stunden erfolgreich aufgezeichnet.";
     } else {
