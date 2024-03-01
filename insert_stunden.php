@@ -18,7 +18,6 @@ $result_projekte = $conn->query($sql_projekte);
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stndnMbFID = $_POST["stndnMbFID"];
     $projektID = $_POST["projektID"];
-    $datum = $_POST["datum"];
     $start = $_POST["start"];
     $end = $_POST["end"];
     $sql = "INSERT INTO tblStunden (stndnMbFID, stndnProjektFID, stndnStart, stndnEnd) VALUES ('$stndnMbFID', '$projektID', '$start', '$end')";
